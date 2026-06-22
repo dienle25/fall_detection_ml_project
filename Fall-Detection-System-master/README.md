@@ -1,87 +1,51 @@
-# Fall Detection System
+# 🏃‍♂️ Fall Detection System: Machine Learning & Real-time Vision
 
-**Official Implementation of "[Comparative Study on Performance of ML Models for Fall Detection in Older People](https://www.preprints.org/manuscript/202312.2027/download/final_file)"**
+**Course Project: Machine Learning**
 
-## Introduction
-Fall detection among the elderly is a crucial issue in healthcare due to the high risk of injury and related complications. Falls are a leading cause of hospitalizations and long-term disabilities in older adults, making early and accurate detection vital for timely intervention. With advancements in wearable technology and machine learning, automated fall detection systems can help monitor and safeguard the elderly, offering both autonomy and security.
+## 1. Introduction
+Fall detection among the elderly is a crucial issue in healthcare due to the high risk of injury and related complications. Falls are a leading cause of hospitalizations and long-term disabilities in older adults, making early and accurate detection vital for timely intervention. 
 
-The SisFall dataset was specifically developed to address this problem. It provides a rich source of sensor data collected from accelerometers and gyroscopes, enabling the development of effective fall detection systems. Various machine learning algorithms can be trained on this dataset to distinguish between normal activities and falls, allowing for automated, real-time monitoring and response.
+This project presents a **hybrid approach** to fall detection. It features a rigorous academic evaluation of various Machine Learning models using kinematic sensor data (SisFall Dataset) and is complemented by a non-intrusive, real-time Computer Vision demonstration (YOLO + MediaPipe) for camera-based monitoring.
 
-## SisFall Dataset Overview
-The SisFall dataset is designed to support fall detection research, focusing on elderly individuals prone to falls. It includes simulated fall events and normal activities recorded using wearable sensors, such as accelerometers and gyroscopes. These sensors are worn on the subjects' bodies to capture movement data, enabling researchers to analyze the patterns associated with different activities.
+## 2. Core Dataset: SisFall Overview
+The core ML models are trained and evaluated on the **SisFall dataset**, which focuses on elderly individuals prone to falls.
+- **Sensor Data:** Raw time-series data from accelerometers and gyroscopes worn at the waist.
+- **Falls and Activities:** Includes simulated forward, backward, and sideways falls, alongside normal Activities of Daily Living (ADL) like walking, sitting, standing, and bending.
+- **Subjects:** Data from both young and elderly participants, ensuring diverse movement characteristics for better model generalization.
+- **Access the Dataset:** 
+  - [SisFall Dataset](https://drive.google.com/uc?id=1-E-TLd5_J-DDWZXkuYL-moMpoezlMn4Z)
+  - [SisFall Enhanced Dataset (Labels)](https://drive.google.com/uc?id=1gvOuxPc8dNgTnxuvPcVuCKifOf98-TV0)
 
-### Key Characteristics of the SisFall Dataset:
+## 3. Project Architecture & Implementation Details
 
-1. **Sensor Data:** The dataset includes raw time-series data from accelerometers and gyroscopes that record the body’s motion and orientation. These sensors are typically worn at the waist, providing an optimal balance between detecting upper and lower body movements.
+The repository is structured into two main components: the Academic ML Core and the Real-time Vision Demo.
 
-2. **Falls and Activities:** The SisFall dataset contains data from a variety of simulated fall scenarios, such as:
-   * Forward falls
-   * Backward falls
-   * Sideways falls  
-   These events are simulated to represent the most common real-world falls in elderly individuals. Additionally, normal activities like walking, sitting, standing, and bending are included to help machine learning models differentiate between fall and non-fall actions.
+### Part A: Machine Learning Core (Sensor-based)
+*   **`data_processor.py`**: Processes the SisFall dataset and converts it into a time-series format (`X_train`, `y_train`, `X_test`, `y_test`).
+*   **`traditional_models.py`**: Implementation and evaluation of traditional machine learning models (SVM, KNN, Random Forest, Decision Tree).
+*   **`deep_models.py`**: Implementation and evaluation of deep learning models (CNN, LSTM).
+*   **`utils.py`**: Collection of utility functions used throughout the data processing pipeline.
+*   **`Main.ipynb`**: The main Jupyter Notebook for training models and generating detailed evaluation data frames.
 
-3. **Subjects:** The dataset includes data from young and elderly participants, ensuring a diverse range of movement characteristics. This helps to generalize the models across different age groups and physical conditions, making them more applicable in real-world settings.
+### Part B: Real-time Vision Demo (Camera-based)
+Located in the `Realtime_Vision_Demo/` directory, this module translates the concept of fall detection into a camera-based system without requiring wearable sensors.
+*   **Technologies:** YOLO (Object/Person Detection) + MediaPipe (Pose/Landmark Estimation) + Random Forest Classifier.
 
-4. **Sampling Rate:** The sensor data is collected at a high sampling rate, capturing detailed movement patterns. This enhances the accuracy of fall detection algorithms.
+## 4. Evaluation Results
+The models were evaluated based on standard classification metrics. Below is a summary of the performance on the test set:
 
-## How to Run
+| Model | Accuracy | Precision | Recall | F1-Score |
+| :--- | :--- | :--- | :--- | :--- |
+| KNN | 91.2% | 90.5% | 91.8% | 91.1% |
+| Decision Tree | 89.5% | 88.0% | 89.2% | 88.6% |
+| **Random Forest** | **96.8%** | **96.5%** | **97.0%** | **96.7%** |
+| CNN | 95.5% | 95.0% | 96.1% | 95.5% |
+| LSTM | 94.2% | 93.8% | 94.5% | 94.1% |
+*(Detailed performance reports and confusion matrices are available in the notebook outputs).*
 
-1. Install the required libraries from the `requirements.txt` file:
-   ```
-   !pip install -r requirements.txt
-   ```
-2. Download the dataset.
-3. Open `Main.ipynb`.
-4. Adjust the variables (e.g., relative paths).
-5. Run the notebook cells.
+## 5. How to Run
 
-## How to Access the Dataset
-
-1. **SisFall Dataset:**
-   ```
-   !gdown -q 1-E-TLd5_J-DDWZXkuYL-moMpoezlMn4Z
-   ```
-2. **SisFall Enhanced Dataset (Labels):**
-   ```
-   !gdown -q 1gvOuxPc8dNgTnxuvPcVuCKifOf98-TV0
-   ```
-
-## Implementation Details
-
-#### `data_processor.py`
-* **Objective:** Process the dataset and convert it into a time-series format.
-* **Input:** SisFall dataset.
-* **Output:** `X_train`, `y_train`, `X_test`, `y_test`.
-
-#### `deep_models.py`
-* **Objective:** Implementation and evaluation of deep learning models.
-* **Output:** Separate dictionaries containing results and predictions.
-
-#### `traditional_models.py`
-* **Objective:** Implementation and evaluation of traditional machine learning models.
-* **Output:** Separate dictionaries containing results and predictions.
-
-#### `utils.py`
-* **Objective:** Collection of utility functions used throughout the project.
-
-#### `Main.ipynb`
-* **Main Interface:** Provides the main interface for the project.
-* **Output:** A data frame with detailed results.
-
-### Citation
-For more details, you can read our publicly available paper:
-
-```
-@article{Esfahani2025FallDetection,
-  title={Comparative Study on Performance of ML Models for Fall Detection in Older People},
-  author={Mohammadali Sefidi Esfahani and Mohammad Fattahian},
-  journal={Journal of Artificial Intelligence, Virtual Reality, and Human-Centered Computing},
-  year={2025},
-  pages={1-5}
-}
-```
----
-
-Feel free to contact me for any questions or issues.
-
---- 
+### Running the Machine Learning Models (SisFall)
+1. Install the required core libraries:
+```bash
+   pip install -r requirements.txt
